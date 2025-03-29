@@ -1,0 +1,1698 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+nextjs-frontend/
+  app/
+    components/
+      FeatureComparison.tsx
+    tools/
+      [slug]/
+        page.tsx
+    globals.css
+    layout.tsx
+    page.tsx
+  lib/
+    sanity.ts
+  public/
+    file.svg
+    globe.svg
+    next.svg
+    vercel.svg
+    window.svg
+  .gitignore
+  eslint.config.mjs
+  next.config.ts
+  package.json
+  postcss.config.mjs
+  README.md
+  tailwind.config.js
+  tsconfig.json
+schemaTypes/
+  commonContent.ts
+  index.ts
+  tool.ts
+static/
+  .gitkeep
+.gitignore
+eslint.config.mjs
+package.json
+README.md
+sanity.cli.ts
+sanity.config.ts
+tsconfig.json
+
+================================================================
+Files
+================================================================
+
+================
+File: nextjs-frontend/app/components/FeatureComparison.tsx
+================
+// app/components/FeatureComparison.tsx
+import React from 'react';
+
+type FeatureComparisonProps = {
+  comparisonPoints: {
+    _key: string;
+    featureName?: string;
+    euToolValue?: string;
+    usToolValue?: string;
+  }[];
+  toolName: string;
+  usAlternativeName?: string;
+  comparisonTitle?: string;
+  comparisonSubtitle?: string;
+  comparisonTagline?: string;
+};
+
+const FeatureComparison: React.FC<FeatureComparisonProps> = ({
+  comparisonPoints,
+  toolName,
+  usAlternativeName = 'US Alternative',
+  comparisonTitle = 'FEATURE COMPARISON',
+  comparisonSubtitle = 'Everything You Need—',
+  comparisonTagline = 'Just Without the Brand Price Tag',
+}) => {
+  if (!comparisonPoints || comparisonPoints.length === 0) return null;
+
+  // Function to render check or cross marks
+  const renderMark = (value: string) => {
+    // Check if value is just "Yes", "✓", "true" etc. for a checkmark
+    const positiveValues = ['yes', 'true', '✓', 'y', 'available', 'included'];
+    const negativeValues = ['no', 'false', '✗', 'x', 'n', 'unavailable', 'not included'];
+    
+    const lowercaseValue = value.toLowerCase();
+    
+    if (positiveValues.includes(lowercaseValue)) {
+      return (
+        <span className="text-green-500 text-2xl flex justify-center">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </span>
+      );
+    } else if (negativeValues.includes(lowercaseValue)) {
+      return (
+        <span className="text-red-500 text-2xl flex justify-center">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </span>
+      );
+    } else {
+      // For any other value, return the text
+      return <span>{value}</span>;
+    }
+  };
+
+  return (
+    <section className="my-16">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-center text-3xl font-bold text-purple-600 mb-4">{comparisonTitle}</h2>
+        <h3 className="text-center text-4xl font-bold mb-12">
+          {comparisonSubtitle}<br />
+          {comparisonTagline}
+        </h3>
+        
+        <div className="overflow-hidden border border-gray-200 rounded-lg shadow-md">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="bg-gray-50">
+                <th className="px-6 py-4 text-lg font-semibold text-gray-800 border-b border-r">Feature</th>
+                <th className="px-6 py-4 text-lg font-semibold text-gray-800 text-center border-b border-r">{toolName}</th>
+                <th className="px-6 py-4 text-lg font-semibold text-red-500 text-center border-b">{usAlternativeName}</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {comparisonPoints.map((point) => (
+                <tr key={point._key} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-medium border-r">{point.featureName}</td>
+                  <td className="px-6 py-4 text-center border-r">
+                    {renderMark(point.euToolValue || '')}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    {renderMark(point.usToolValue || '')}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="mt-8 flex items-center justify-center">
+          <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+            <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <p className="text-xl font-medium">
+            You shouldn't have to sacrifice quality just to go with the name everyone knows.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FeatureComparison;
+
+================
+File: nextjs-frontend/app/tools/[slug]/page.tsx
+================
+// app/tools/[slug]/page.tsx
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import FeatureComparison from '../../components/FeatureComparison';
+
+import {
+  client,
+  getCommonContent,
+  urlFor,
+  type CommonContent,
+  type Tool,
+  type FeatureItem,
+  type ComparisonPoint,
+  type PricingTier,
+  type ImageWithAlt
+} from '../../../lib/sanity';
+
+type ToolPageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export const revalidate = 60;
+
+const FeatureSection: React.FC<{ features: FeatureItem[] | undefined }> = ({ features }) => {
+  if (!features || features.length === 0) return null;
+  return (
+    <section className="my-12">
+      <h2 className="text-3xl font-bold mb-8">Key Features & Benefits</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {features.map((feature) => (
+          <div key={feature._key} className="bg-white rounded-lg p-6 shadow-sm border border-gray-100">
+            <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+            <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const ComparisonSection: React.FC<{ 
+  points: ComparisonPoint[] | undefined,
+  toolName: string,
+  usAlternativeName?: string,
+  comparisonTitle?: string,
+  comparisonSubtitle?: string,
+  comparisonTagline?: string
+}> = ({ 
+  points, 
+  toolName, 
+  usAlternativeName,
+  comparisonTitle,
+  comparisonSubtitle,
+  comparisonTagline
+}) => {
+  if (!points || points.length === 0) return null;
+  
+  return (
+    <FeatureComparison 
+      comparisonPoints={points} 
+      toolName={toolName}
+      usAlternativeName={usAlternativeName || 'US Alternative'} 
+      comparisonTitle={comparisonTitle}
+      comparisonSubtitle={comparisonSubtitle}
+      comparisonTagline={comparisonTagline}
+    />
+  );
+};
+
+const PricingSection: React.FC<{ tiers: PricingTier[] | undefined }> = ({ tiers }) => {
+  if (!tiers || tiers.length === 0) return null;
+  return (
+    <section className="my-12 bg-gray-50 py-12 px-6 rounded-xl">
+      <h2 className="text-3xl font-bold mb-10 text-center">Pricing Plans</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {tiers.map((tier) => (
+          <div key={tier._key} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+            <div className="p-6">
+              <h3 className="text-xl font-bold text-center mb-4">{tier.name}</h3>
+              <p className="text-4xl font-bold text-center text-blue-600 mb-6">{tier.price}</p>
+              <ul className="space-y-3 mb-8">
+                {tier.featuresList?.map((feature, index) => (
+                  <li key={index} className="flex items-start">
+                    <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-600">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-auto p-6 pt-0">
+              <button className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
+                {tier.ctaText || 'Get Started'}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const AboutUsSection: React.FC<{ content: string | undefined }> = ({ content }) => {
+  if (!content) return null;
+  return (
+    <section className="my-12 bg-gray-50 p-8 rounded-lg">
+      <h2 className="text-3xl font-bold mb-4">About Us</h2>
+      <p className="text-gray-700 leading-relaxed">{content}</p>
+    </section>
+  );
+};
+
+const TestimonialsSection: React.FC<{ testimonials: string[] | undefined }> = ({ testimonials }) => {
+  if (!testimonials || testimonials.length === 0) return null;
+  return (
+    <section className="my-12 bg-gray-50 p-8 rounded-lg">
+      <h2 className="text-3xl font-bold mb-6">What Our Customers Say</h2>
+      <div className="space-y-6">
+        {testimonials.map((testimonial, index) => (
+          <blockquote key={index} className="border-l-4 border-blue-500 pl-4 italic text-gray-700">
+            "{testimonial}"
+          </blockquote>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const WhyEuSection: React.FC<{ content: string | undefined }> = ({ content }) => {
+  if (!content) return null;
+  return (
+    <section className="my-12 bg-blue-50 border border-blue-100 p-8 rounded-lg">
+      <h2 className="text-3xl font-bold mb-4">Why Choose the EU Version?</h2>
+      <p className="text-gray-700 leading-relaxed">{content}</p>
+    </section>
+  );
+};
+
+const GdprFocusSection: React.FC<{ content: string | undefined }> = ({ content }) => {
+  if (!content) return null;
+  return (
+    <section className="my-12 bg-amber-50 border border-amber-100 p-8 rounded-lg">
+      <h2 className="text-3xl font-bold mb-4">GDPR Compliance Focus</h2>
+      <p className="text-gray-700 leading-relaxed">{content}</p>
+    </section>
+  );
+};
+
+const LogosSection: React.FC<{ logos: ImageWithAlt[] | undefined }> = ({ logos }) => {
+  if (!logos || logos.length === 0) return null;
+  return (
+    <section className="my-12 py-10 px-6 bg-gray-50 rounded-lg text-center">
+      <h2 className="text-xl font-medium text-gray-500 mb-8">Trusted By Leading EU Businesses</h2>
+      <div className="flex flex-wrap justify-center items-center gap-10">
+        {logos.map((logo) => logo.asset ? (
+          <div key={logo._key} className="h-14 flex items-center">
+            <Image
+              src={urlFor(logo.asset).width(160).height(50).fit('max').auto('format').url()}
+              alt={logo.alt || 'Customer logo'}
+              width={160}
+              height={50}
+              className="object-contain grayscale opacity-70"
+            />
+          </div>
+        ) : null)}
+      </div>
+    </section>
+  );
+};
+
+export async function generateStaticParams() {
+  const query = `*[_type == "tool" && defined(slug.current)][].slug.current`;
+  const slugs = await client.fetch<string[]>(query);
+
+  return slugs.map((slug) => ({
+    slug: slug,
+  }));
+}
+
+export default async function ToolPage({ params }: ToolPageProps) {
+  const slug = params.slug;
+
+  try {
+    const toolQuery = `*[_type == "tool" && slug.current == $slug][0]{
+      _id, name, tagline, slug, primaryCTAText, secondaryCTAText, uniqueDescription,
+      usAlternativeName,
+      comparisonTitle, comparisonSubtitle, comparisonTagline,
+      heroImage{alt, asset->{_id, url, metadata { dimensions }}},
+      uniqueFeatures[]{_key, title, description},
+      comparisonPoints[]{_key, featureName, euToolValue, usToolValue},
+      pricingTiers[]{_key, name, price, featuresList, ctaText}
+    }`;
+
+    const [tool, commonContent] = await Promise.all([
+      client.fetch<Tool | null>(toolQuery, { slug }),
+      getCommonContent(),
+    ]);
+
+    if (!tool) {
+      notFound();
+    }
+
+    return (
+      <div className="bg-white text-gray-900 min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          {/* Hero Section */}
+          <section className="mb-16">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+                  <span className="block">Everything you ever</span>
+                  <span className="text-orange-500">wanted to know</span>
+                  <span className="block">about {tool.name}</span>
+                </h1>
+                <p className="text-xl text-gray-600 mb-8">{tool.tagline}</p>
+                <div className="flex flex-wrap gap-4">
+                  {tool.primaryCTAText && (
+                    <button className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
+                      {tool.primaryCTAText}
+                    </button>
+                  )}
+                  {tool.secondaryCTAText && (
+                    <button className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md border-2 border-blue-600 hover:bg-blue-50 transition-colors">
+                      {tool.secondaryCTAText}
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                {tool.heroImage?.asset ? (
+                  <Image
+                    src={urlFor(tool.heroImage).width(600).height(400).auto('format').url()}
+                    alt={tool.heroImage.alt || `${tool.name} hero image`}
+                    width={600}
+                    height={400}
+                    className="w-full h-auto"
+                    priority
+                  />
+                ) : (
+                  <div className="bg-gray-100 w-full h-80 flex items-center justify-center">
+                    <p className="text-gray-400">Tool image</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* Overview/Description */}
+          {tool.uniqueDescription && (
+            <section className="my-12">
+              <h2 className="text-3xl font-bold mb-4">Overview</h2>
+              <p className="text-lg text-gray-700 leading-relaxed">{tool.uniqueDescription}</p>
+            </section>
+          )}
+
+          {/* EU & GDPR Sections */}
+          <WhyEuSection content={commonContent?.whyEu} />
+          <GdprFocusSection content={commonContent?.gdprFocus} />
+
+          {/* Features, Comparison & Other Sections */}
+          <FeatureSection features={tool.uniqueFeatures} />
+          
+          {/* Updated Comparison section with the tool name and US alternative name */}
+          <ComparisonSection 
+            points={tool.comparisonPoints} 
+            toolName={tool.name}
+            usAlternativeName={tool.usAlternativeName}
+            comparisonTitle={tool.comparisonTitle}
+            comparisonSubtitle={tool.comparisonSubtitle}
+            comparisonTagline={tool.comparisonTagline}
+          />
+          
+          <LogosSection logos={commonContent?.globalCustomerLogos} />
+          <TestimonialsSection testimonials={commonContent?.globalTestimonials} />
+          <PricingSection tiers={tool.pricingTiers} />
+          <AboutUsSection content={commonContent?.aboutUs} />
+
+          {/* Final CTA */}
+          <section className="my-16 bg-gray-50 py-12 px-8 rounded-xl text-center">
+            <h2 className="text-3xl font-bold mb-4">Ready to Experience {tool.name} in the EU?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              Get started today and enjoy the benefits of EU-hosted software.
+            </p>
+            {tool.primaryCTAText && (
+              <button className="px-8 py-4 text-xl bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
+                {tool.primaryCTAText}
+              </button>
+            )}
+          </section>
+        </div>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error in ToolPage:", error);
+    return (
+      <div className="p-10 text-center">
+        <h2 className="text-2xl font-bold text-red-500 mb-4">
+          Error loading tool information
+        </h2>
+        <p className="text-gray-600 mb-6">
+          We encountered a problem fetching data for this tool. Please try again later.
+        </p>
+        <Link href="/" className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
+          Return to Home
+        </Link>
+      </div>
+    );
+  }
+}
+
+================
+File: nextjs-frontend/app/globals.css
+================
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Force light mode even when user prefers dark mode */
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Hotjar-inspired button styles */
+.btn-primary {
+  background-color: #0052CC;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0043A9;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0052CC;
+  border: 1px solid #0052CC;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(0, 82, 204, 0.05);
+}
+
+/* Headings */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Hotjar accent colors */
+.accent-orange {
+  color: #FF5C35;
+}
+
+.bg-accent-orange {
+  background-color: #FF5C35;
+}
+
+.accent-blue {
+  color: #0052CC;
+}
+
+.bg-accent-blue {
+  background-color: #0052CC;
+}
+
+================
+File: nextjs-frontend/app/layout.tsx
+================
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
+import Image from "next/image";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "EU Software Alternatives",
+  description: "Discover EU-based alternatives to popular US tools with enhanced GDPR compliance",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className="bg-white min-h-screen flex flex-col antialiased">
+        {/* Header */}
+        <header className="border-b border-gray-200">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <Link href="/" className="flex items-center">
+                  <span className="text-2xl font-bold">EU Clones</span>
+                </Link>
+                <nav className="hidden md:ml-10 md:flex md:space-x-8">
+                  <Link href="/" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+                    Home
+                  </Link>
+                  <Link href="/tools" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+                    Tools
+                  </Link>
+                  <Link href="/pricing" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+                    Pricing
+                  </Link>
+                  <Link href="/case-studies" className="text-gray-900 hover:text-gray-600 px-3 py-2 text-sm font-medium">
+                    Case Studies
+                  </Link>
+                </nav>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Link 
+                  href="/contact" 
+                  className="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium"
+                >
+                  Contact Sales
+                </Link>
+                <Link 
+                  href="/login" 
+                  className="border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Sign in
+                </Link>
+                <Link 
+                  href="/get-started" 
+                  className="bg-blue-600 text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-blue-700"
+                >
+                  Get started
+                </Link>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="flex-grow">
+          {children}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-gray-50 border-t border-gray-200">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">EU Clones</h3>
+                <p className="text-gray-600">Your one-stop directory for EU-based alternatives to popular US tools.</p>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Products</h3>
+                <ul className="space-y-2">
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">All Tools</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">GDPR Compliance</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">EU Hosting</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Resources</h3>
+                <ul className="space-y-2">
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">Blog</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">Case Studies</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">Documentation</Link></li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Company</h3>
+                <ul className="space-y-2">
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">About Us</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">Contact</Link></li>
+                  <li><Link href="#" className="text-gray-600 hover:text-gray-900">Privacy Policy</Link></li>
+                </ul>
+              </div>
+            </div>
+            <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-500">
+              <p>© {new Date().getFullYear()} EU Clones. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
+      </body>
+    </html>
+  );
+}
+
+================
+File: nextjs-frontend/app/page.tsx
+================
+// app/page.tsx
+import Link from 'next/link';
+import Image from 'next/image';
+import { client, type Tool } from '../lib/sanity';
+
+export const revalidate = 60;
+
+export default async function HomePage() {
+  // Fetch data directly within the Server Component
+  const query = `*[_type == "tool" && defined(slug.current)]{
+    _id,
+    name,
+    tagline,
+    slug,
+    heroImage{alt, asset->}
+  }`;
+  const tools = await client.fetch<Tool[]>(query);
+
+  return (
+    <div className="bg-white">
+      {/* Hero Section */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-bold mb-6">
+                <span className="block">Everything you ever</span>
+                <span className="text-orange-500">wanted to know</span>
+                <span className="block">about EU software alternatives</span>
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                Your one-stop directory for EU-based alternatives to popular US tools with enhanced GDPR compliance.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/tools" className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors">
+                  Get started
+                </Link>
+                <Link href="/contact" className="px-6 py-3 bg-white text-blue-600 font-medium rounded-md border-2 border-blue-600 hover:bg-blue-50 transition-colors">
+                  Contact sales
+                </Link>
+              </div>
+              <p className="text-gray-500 mt-4 text-sm">No credit card required. Upgrade any time.</p>
+            </div>
+            <div className="rounded-xl overflow-hidden">
+              <Image
+                src="/globe.svg"
+                alt="EU Software Clones"
+                width={600}
+                height={400}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tools List Section */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Discover EU-Based Software Alternatives</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Browse our curated collection of GDPR-compliant tools hosted in the European Union
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {tools?.length > 0 ? (
+              tools.map((tool) => (
+                <Link
+                  key={tool._id}
+                  href={`/tools/${tool.slug.current}`}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className="h-40 bg-gray-100 relative">
+                    {tool.heroImage?.asset ? (
+                      <Image
+                        src={tool.heroImage.asset.url}
+                        alt={tool.heroImage.alt || tool.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Image
+                          src="/window.svg"
+                          alt="Tool icon"
+                          width={48}
+                          height={48}
+                          className="opacity-50"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2">{tool.name}</h3>
+                    {tool.tagline && <p className="text-gray-600">{tool.tagline}</p>}
+                    <div className="mt-4 flex justify-end">
+                      <span className="text-blue-600 font-medium flex items-center">
+                        Learn more
+                        <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12">
+                <p className="text-gray-500">No tools found. Add some in your Sanity Studio!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Why Choose EU Alternatives?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Enjoy the benefits of software designed with European values and regulations in mind
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="text-blue-600 mb-4">
+                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Enhanced GDPR Compliance</h3>
+              <p className="text-gray-600">
+                Software built from the ground up with European data protection regulations in mind.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="text-blue-600 mb-4">
+                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">EU Data Hosting</h3>
+              <p className="text-gray-600">
+                All your data stays within EU borders, ensuring compliance with data residency requirements.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="text-blue-600 mb-4">
+                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2">Competitive Pricing</h3>
+              <p className="text-gray-600">
+                Get all the features you need at prices that compete with or beat US-based alternatives.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to explore EU-based alternatives?</h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Discover software solutions that respect your privacy, comply with EU regulations, and deliver the features you need.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link 
+              href="/tools" a
+              className="px-8 py-4 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Browse All Tools
+            </Link>
+            <Link 
+              href="/contact" 
+              className="px-8 py-4 bg-white text-blue-600 font-medium rounded-md border-2 border-blue-600 hover:bg-blue-50 transition-colors"
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+================
+File: nextjs-frontend/lib/sanity.ts
+================
+// lib/sanity.ts
+import { createClient, type ClientConfig } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url'; // Import image URL builder
+import type { Image, Slug } from '@sanity/types'; // Import specific Sanity types
+
+// --- INTERFACES matching your updated Sanity Schemas ---
+
+// Interface for Sanity Image object with the 'alt' field
+export interface ImageWithAlt extends Image {
+    alt?: string;
+}
+
+// Interface for the objects inside the 'uniqueFeatures' array in 'tool' schema
+export interface FeatureItem {
+    _key: string; // Automatically added by Sanity for array items
+    title?: string;
+    description?: string;
+}
+
+// Interface for the objects inside the 'comparisonPoints' array in 'tool' schema
+export interface ComparisonPoint {
+    _key: string;
+    featureName?: string;
+    euToolValue?: string;
+    usToolValue?: string;
+}
+
+// Interface for the objects inside the 'pricingTiers' array in 'tool' schema
+export interface PricingTier {
+    _key: string;
+    name?: string;
+    price?: string;
+    featuresList?: string[];
+    ctaText?: string;
+}
+
+// --- Updated CommonContent Interface (matches commonContent.ts schema) ---
+export interface CommonContent {
+  _type: 'commonContent'; // Document type
+  _id: string; // Document ID
+  aboutUs?: string;
+  whyEu?: string;
+  gdprFocus?: string; // Added field
+  globalTestimonials?: string[];
+  globalCustomerLogos?: ImageWithAlt[]; // Added field (array of images with alt)
+}
+
+// --- Updated Tool Interface (matches tool.ts schema) ---
+export interface Tool {
+    _id: string; // Document ID
+    _type: 'tool'; // Document type
+    name: string; // Required field
+    tagline?: string;
+    slug: Slug; // Use the imported Slug type
+    usAlternativeName?: string; // Added field
+    heroImage?: ImageWithAlt; // Added field
+    primaryCTAText?: string; // Added field
+    secondaryCTAText?: string; // Added field
+    uniqueDescription?: string;
+    uniqueFeatures?: FeatureItem[]; // Updated field (array of FeatureItem objects)
+    comparisonTitle?: string; // Comparison section title
+    comparisonSubtitle?: string; // Comparison section subtitle (first line)
+    comparisonTagline?: string; // Comparison section tagline (second line)
+    comparisonPoints?: ComparisonPoint[]; // Added field
+    pricingTiers?: PricingTier[]; // Added field
+}
+
+// --- Sanity Client Configuration ---
+const config: ClientConfig = {
+  // Ensure NEXT_PUBLIC_SANITY_PROJECT_ID is set in your .env.local file
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production', // Default to 'production'
+  // Use CDN only in production environments (typically in the browser)
+  useCdn: typeof document !== 'undefined' && process.env.NODE_ENV === 'production',
+  apiVersion: '2023-05-03', // Use a recent API version date
+  // token: process.env.SANITY_API_READ_TOKEN // Add this for private datasets
+};
+
+// Runtime check to ensure projectId is configured
+if (typeof process !== 'undefined' && !config.projectId) {
+  throw new Error(
+    "Configuration Error: The environment variable NEXT_PUBLIC_SANITY_PROJECT_ID is missing or invalid. Please check your .env.local file."
+  );
+}
+
+// --- Export configured Sanity Client ---
+export const client = createClient(config);
+
+// --- Image URL Builder Helper ---
+const builder = imageUrlBuilder(client);
+
+// Helper function to generate image URLs from Sanity image objects
+// Usage: urlFor(sanityImageObject).width(300).url()
+export function urlFor(source: Image) { // Takes a Sanity 'Image' object
+    return builder.image(source);
+}
+
+// --- Helper function to fetch the singleton Common Content document ---
+export async function getCommonContent(): Promise<CommonContent | null> {
+  // Fetches the first document of type 'commonContent'.
+  // Using '...' fetches all top-level fields defined in the interface.
+  const query = `*[_type == "commonContent"][0]{
+      ...,
+      // Explicitly expand image references if needed
+      globalCustomerLogos[]{..., asset->}
+    }`;
+  try {
+    const commonData = await client.fetch<CommonContent>(query);
+    return commonData;
+  } catch (error) {
+    console.error("Error fetching common content from Sanity:", error);
+    return null; // Return null or handle the error appropriately
+  }
+}
+
+================
+File: nextjs-frontend/public/file.svg
+================
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+
+================
+File: nextjs-frontend/public/globe.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+
+================
+File: nextjs-frontend/public/next.svg
+================
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+
+================
+File: nextjs-frontend/public/vercel.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+
+================
+File: nextjs-frontend/public/window.svg
+================
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+
+================
+File: nextjs-frontend/.gitignore
+================
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+================
+File: nextjs-frontend/eslint.config.mjs
+================
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+];
+
+export default eslintConfig;
+
+================
+File: nextjs-frontend/next.config.ts
+================
+// next.config.ts
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true, // Or your existing configuration
+  // swcMinify: true, // Example other config
+
+  // --- ADD THIS BLOCK ---
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '', // Keep empty unless Sanity uses a specific port (it doesn't)
+        // You could optionally add a pathname pattern here if needed,
+        // but usually just the hostname is sufficient for Sanity.
+        // pathname: '/images/your-project-id/**',
+      },
+    ],
+    // --- OR (older method, less flexible) ---
+    // domains: ['cdn.sanity.io'],
+  },
+  // --- END BLOCK ---
+
+  // ... any other existing configuration
+};
+
+export default nextConfig;
+
+================
+File: nextjs-frontend/package.json
+================
+{
+  "name": "nextjs-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@sanity/cli": "^3.81.0",
+    "@sanity/client": "^6.28.4",
+    "@sanity/image-url": "^1.1.0",
+    "next": "15.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sanity": "^3.81.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5"
+  }
+}
+
+================
+File: nextjs-frontend/postcss.config.mjs
+================
+// postcss.config.mjs
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+================
+File: nextjs-frontend/README.md
+================
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+================
+File: nextjs-frontend/tailwind.config.js
+================
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+      "./app/**/*.{js,ts,jsx,tsx}",
+      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./components/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+      extend: {
+        colors: {
+          'hotjar-orange': '#FF5C35',
+          'hotjar-blue': '#0052CC',
+        },
+      },
+    },
+    plugins: [],
+  };
+
+================
+File: nextjs-frontend/tsconfig.json
+================
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+================
+File: schemaTypes/commonContent.ts
+================
+// schemaTypes/commonContent.ts
+import {defineField, defineType} from 'sanity'
+
+export default defineType({
+  name: 'commonContent',
+  title: 'Common Content',
+  type: 'document',
+  __experimental_actions: [/*'create',*/ 'update', /*'delete',*/ 'publish'],
+  fields: [
+    defineField({
+      name: 'aboutUs',
+      title: 'About Us Section',
+      type: 'text',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'whyEu',
+      title: 'Why EU Clone Section (General)',
+      description: 'General benefits of using EU-hosted alternatives.',
+      type: 'text',
+      validation: (Rule) => Rule.required(),
+    }),
+    // --- NEW FIELD ---
+    defineField({
+      name: 'gdprFocus',
+      title: 'GDPR Focus Section',
+      description: 'Specific points about GDPR compliance advantages.',
+      type: 'text',
+    }),
+    defineField({
+      name: 'globalTestimonials',
+      title: 'Global Testimonials',
+      type: 'array',
+      of: [{type: 'text'}],
+    }),
+    // --- NEW FIELD (using image type) ---
+    defineField({
+        name: 'globalCustomerLogos',
+        title: 'Global Customer Logos',
+        description: 'Logos displayed across multiple pages.',
+        type: 'array',
+        of: [{
+            type: 'image',
+            options: { hotspot: true }, // Allows focal point selection
+            fields: [ // Optional: Add alt text field to images
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                    description: 'Important for SEO and accessibility.',
+                    validation: Rule => Rule.required()
+                })
+            ]
+        }]
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {title: 'Common Content Settings'}
+    },
+  },
+})
+
+================
+File: schemaTypes/index.ts
+================
+// schemaTypes/index.ts
+import commonContent from './commonContent'
+import tool from './tool'
+// If you add blockContent later, import it here too
+// import blockContent from './blockContent'
+
+export const schemaTypes = [
+    tool,
+    commonContent,
+    // blockContent, // Add later if needed
+]
+
+================
+File: schemaTypes/tool.ts
+================
+// schemaTypes/tool.ts
+import {defineField, defineType} from 'sanity'
+
+export default defineType({
+  name: 'tool',
+  title: 'Tool',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'name',
+      title: 'Tool Name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug (URL Path)',
+      type: 'slug',
+      options: { source: 'name', maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'tagline',
+      title: 'Short Tagline (for Hero/Listings)',
+      type: 'string',
+    }),
+    // --- NEW FIELD ---
+    defineField({
+      name: 'usAlternativeName',
+      title: 'US Alternative Name',
+      description: 'The name of the US tool this is an alternative to (e.g., "Hotjar", "Mailchimp")',
+      type: 'string',
+    }),
+    defineField({
+        name: 'heroImage',
+        title: 'Hero Image',
+        type: 'image',
+        options: { hotspot: true },
+        fields: [
+            defineField({
+                name: 'alt',
+                type: 'string',
+                title: 'Alternative Text',
+                 validation: Rule => Rule.required()
+            })
+        ]
+    }),
+     // --- REMAINING FIELDS ---
+    defineField({
+        name: 'primaryCTAText',
+        title: 'Primary Call-to-Action Button Text',
+        type: 'string',
+        initialValue: 'Start Free Trial',
+    }),
+    defineField({
+        name: 'secondaryCTAText',
+        title: 'Secondary Call-to-Action Text (Optional)',
+        description: 'E.g., "Request a Demo", "View Pricing"',
+        type: 'string',
+    }),
+    defineField({
+      name: 'uniqueDescription',
+      title: 'Unique Description (Problem/Solution Section)',
+      type: 'text',
+    }),
+    defineField({
+      name: 'uniqueFeatures',
+      title: 'Unique Features & Benefits',
+      type: 'array',
+      of: [{
+          type: 'object',
+          fields: [
+              defineField({ name: 'title', title: 'Feature Title', type: 'string', validation: Rule => Rule.required() }),
+              defineField({ name: 'description', title: 'Benefit/Description', type: 'text', validation: Rule => Rule.required() }),
+          ]
+      }],
+    }),
+    defineField({
+      name: 'comparisonTitle',
+      title: 'Comparison Section Title',
+      description: 'The title for the feature comparison section (e.g., "FEATURE COMPARISON")',
+      type: 'string',
+      initialValue: 'FEATURE COMPARISON',
+    }),
+    defineField({
+      name: 'comparisonSubtitle',
+      title: 'Comparison Section Subtitle (First Line)',
+      description: 'The first line of the subtitle (e.g., "Everything You Need—")',
+      type: 'string',
+      initialValue: 'Everything You Need—',
+    }),
+    defineField({
+      name: 'comparisonTagline',
+      title: 'Comparison Section Tagline (Second Line)',
+      description: 'The second line of the subtitle (e.g., "Just Without the Brand Price Tag")',
+      type: 'string',
+      initialValue: 'Just Without the Brand Price Tag',
+    }),
+    defineField({
+        name: 'comparisonPoints',
+        title: 'Comparison Points (vs US Tool)',
+        type: 'array',
+        of: [{
+            type: 'object',
+            fields: [
+                defineField({ name: 'featureName', title: 'Feature / Aspect', type: 'string', validation: Rule => Rule.required() }),
+                defineField({ name: 'euToolValue', title: 'This EU Tool', type: 'string', validation: Rule => Rule.required() }),
+                defineField({ name: 'usToolValue', title: 'Original US Tool', type: 'string', validation: Rule => Rule.required() }),
+            ]
+        }]
+    }),
+    defineField({
+        name: 'pricingTiers',
+        title: 'Pricing Tiers',
+        type: 'array',
+        of: [{
+            type: 'object',
+            fields: [
+                defineField({ name: 'name', title: 'Tier Name', type: 'string', validation: Rule => Rule.required() }),
+                defineField({ name: 'price', title: 'Price (e.g., €19/mo)', type: 'string', validation: Rule => Rule.required() }),
+                defineField({ name: 'featuresList', title: 'Included Features (one per line)', type: 'array', of: [{type: 'string'}], validation: Rule => Rule.required() }),
+                defineField({ name: 'ctaText', title: 'Button Text', type: 'string', initialValue: 'Get Started'}),
+            ]
+        }]
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'name',
+      subtitle: 'usAlternativeName',
+      media: 'heroImage',
+    },
+    prepare: ({title, subtitle, media}) => ({
+      title,
+      subtitle: subtitle ? `Alternative to ${subtitle}` : undefined,
+      media,
+    })
+  },
+})
+
+================
+File: static/.gitkeep
+================
+Files placed here will be served by the Sanity server under the `/static`-prefix
+
+================
+File: .gitignore
+================
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Compiled Sanity Studio
+/dist
+
+# Temporary Sanity runtime, generated by the CLI on every dev server start
+/.sanity
+
+# Logs
+/logs
+*.log
+
+# Coverage directory used by testing tools
+/coverage
+
+# Misc
+.DS_Store
+*.pem
+
+# Typescript
+*.tsbuildinfo
+
+# Dotenv and similar local-only files
+*.local
+
+================
+File: eslint.config.mjs
+================
+import studio from '@sanity/eslint-config-studio'
+
+export default [...studio]
+
+================
+File: package.json
+================
+{
+  "name": "euclones",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/client": "^6.28.4",
+    "@sanity/vision": "^3.81.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.81.0",
+    "styled-components": "^6.1.8"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^5.0.2",
+    "@types/react": "^18.0.25",
+    "eslint": "^9.9.0",
+    "prettier": "^3.0.2",
+    "typescript": "^5.1.6"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
+  }
+}
+
+================
+File: README.md
+================
+# Sanity Clean Content Studio
+
+Congratulations, you have now installed the Sanity Content Studio, an open-source real-time content editing environment connected to the Sanity backend.
+
+Now you can do the following things:
+
+- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
+- [Join the community Slack](https://slack.sanity.io/?utm_source=readme)
+- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
+
+================
+File: sanity.cli.ts
+================
+import {defineCliConfig} from 'sanity/cli'
+
+export default defineCliConfig({
+  api: {
+    projectId: 'rouisuse',
+    dataset: 'production'
+  },
+  /**
+   * Enable auto-updates for studios.
+   * Learn more at https://www.sanity.io/docs/cli#auto-updates
+   */
+  autoUpdates: true,
+})
+
+================
+File: sanity.config.ts
+================
+import {defineConfig} from 'sanity'
+import {structureTool} from 'sanity/structure'
+import {visionTool} from '@sanity/vision'
+import {schemaTypes} from './schemaTypes'
+
+export default defineConfig({
+  name: 'default',
+  title: 'eu_clones',
+
+  projectId: 'rouisuse',
+  dataset: 'production',
+
+  plugins: [structureTool(), visionTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
+})
+
+================
+File: tsconfig.json
+================
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+
+
+
+================================================================
+End of Codebase
+================================================================
